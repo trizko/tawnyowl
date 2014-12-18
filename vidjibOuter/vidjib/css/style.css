@@ -1,0 +1,45 @@
+* {
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body {
+font:13px Helvetica, Arial;
+}
+
+form {
+background:#000;
+position:fixed;
+bottom:0;
+width:100%;
+padding:3px;
+}
+
+form input {
+border:0;
+width:90%;
+margin-right:.5%;
+padding:10px;
+}
+
+form button {
+width:9%;
+background:#82e0ff;
+border:none;
+padding:10px;
+}
+
+#messages {
+list-style-type:none;
+margin:0;
+padding:0;
+}
+
+#messages li {
+padding:5px 10px;
+}
+
+#messages li:nth-child(odd) {
+background:#eee;
+}
