@@ -59,11 +59,15 @@ function gotStreamSuccess (stream) {
   localVideo.src = URL.createObjectURL(stream);
   localStream = stream;
   callButton.disabled = false;
+  call();
 }
 
 function start () {
   console.log('requesting local stream');
   startButton.disabled = true;
+  var room = window.location.pathname;
+
+  socket.emit('join', room);
   navigator.getUserMedia(constraints, gotStreamSuccess, errorCallback);
 }
 
@@ -71,6 +75,7 @@ function call () {
   callButton.disabled = true;
   hangupButton.disabled = false;
   console.log('starting call');
+
   //check presence of local video and audio
   if (localStream.getVideoTracks().length > 0) {
     console.log('Using video device: ' + localStream.getVideoTracks()[0].label);
@@ -95,6 +100,7 @@ function createPeerConnection() {
   console.log("Created local peer connection object localPeerConnection");
   localPeerConnection.onicecandidate = handleIceCandidate;
   localPeerConnection.onaddstream = gotRemoteStream;
+  localPeerConnection.onremovestream = removeRemoteStream;
 }
 
 function gotLocalDescriptionBeforeOffer(description){
@@ -155,6 +161,11 @@ function gotRemoteStream(event){
   console.log("Received remote stream");
 }
 
+function removeRemoteStream(event) {
+  console.log('closed');
+  remoteVideo.src = "";
+};
+
 function handleIceCandidate(event) {
   if (event.candidate) {
     var candidate = {
@@ -171,4 +182,6 @@ function handleIceCandidate(event) {
 };
 
 function handleError(){}
+
+start();
 
