@@ -4,6 +4,15 @@ margin:0;
 padding:0;
 }
 
+#localVideo {
+  float: left;
+}
+
+video {
+  width: 50%;
+  height: 50%;
+}
+
 body {
 font:13px Helvetica, Arial;
 }
