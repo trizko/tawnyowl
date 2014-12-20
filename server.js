@@ -40,7 +40,6 @@ app.get('/client/css/style.css', function(req, res) {
   res.sendFile(__dirname + '/client/css/style.css');
 });
 
-
 app.get('/client/js/adapter.js', function(req, res) {
   res.sendFile(__dirname + '/client/js/adapter.js');
 });
