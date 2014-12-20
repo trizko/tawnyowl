@@ -32,26 +32,25 @@ io.on('connection', function(socket){
 
 });
 
-// app.use('/*', express.static(path.join(__dirname, ".")));
-
-
-// app.use('/css', express.static(__dirname + '/client/css'));
-// app.use('/js', express.static(__dirname + '/client/js'));
-
 app.get('/socket.io/socket.io.js', function(req, res) {
-  res.sendfile('./socket.io/socket.io.js');
+  res.sendFile(__dirname + '/socket.io/socket.io.js');
 });
 
+app.get('/client/css/style.css', function(req, res) {
+  res.sendFile(__dirname + '/client/css/style.css');
+});
+
+
 app.get('/client/js/adapter.js', function(req, res) {
-  res.sendfile('./client/js/adapter.js');
+  res.sendFile(__dirname + '/client/js/adapter.js');
 });
 
 app.get('/client/js/main.js', function(req, res) {
-  res.sendfile('./client/js/main.js');
+  res.sendFile(__dirname + '/client/js/main.js');
 });
 
 app.get('/*', function(req, res) {
-  res.sendfile('./client/index.html');
+  res.sendFile(__dirname + '/client/index.html');
 });
 
 // app.get('/*', function(req, res){

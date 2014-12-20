@@ -29,17 +29,6 @@ var localPeerConnection;
 
 var localVideo = $('#localVideo').get(0);
 var remoteVideo = $('#remoteVideo').get(0);
-var startButton = $('#startButton').get(0);
-var callButton = $('#callButton').get(0);
-var hangupButton = $('#hangupButton').get(0);
-
-startButton.disabled = false;
-callButton.disabled = true;
-hangupButton.disabled = true;
-
-startButton.onclick = start;
-callButton.onclick = call;
-hangupButton.onclick = hangup;
 
 //////////////////////////////
 // Get local video stream
@@ -58,13 +47,11 @@ function gotStreamSuccess (stream) {
   console.log(stream);
   localVideo.src = URL.createObjectURL(stream);
   localStream = stream;
-  callButton.disabled = false;
   call();
 }
 
 function start () {
   console.log('requesting local stream');
-  startButton.disabled = true;
   var room = window.location.pathname;
 
   socket.emit('join', room);
@@ -72,8 +59,6 @@ function start () {
 }
 
 function call () {
-  callButton.disabled = true;
-  hangupButton.disabled = false;
   console.log('starting call');
 
   //check presence of local video and audio
@@ -149,8 +134,6 @@ function hangup() {
   console.log("Ending call");
   localPeerConnection.close();
   localPeerConnection = null;
-  hangupButton.disabled = true;
-  callButton.disabled = false;
 }
 
 function gotRemoteStream(event){
