@@ -26,6 +26,7 @@ navigator.getUserMedia = navigator.getUserMedia ||
 
 var localStream;
 var localPeerConnection;
+var constraints;
 
 var localVideo = $('#localVideo').get(0);
 var remoteVideo = $('#remoteVideo').get(0);
@@ -33,13 +34,13 @@ var startButton = $('#startButton').get(0);
 var callButton = $('#callButton').get(0);
 var hangupButton = $('#hangupButton').get(0);
 
-startButton.disabled = false;
-callButton.disabled = true;
-hangupButton.disabled = true;
+// startButton.disabled = false;
+// callButton.disabled = true;
+// hangupButton.disabled = true;
 
-startButton.onclick = start;
-callButton.onclick = call;
-hangupButton.onclick = hangup;
+// startButton.onclick = start;
+// callButton.onclick = call;
+// hangupButton.onclick = hangup;
 
 //////////////////////////////
 // Get local video stream
@@ -47,7 +48,8 @@ hangupButton.onclick = hangup;
 
 // performance fn to be added (trace)
 
-var constraints = {video: true, audio: true};
+// Start the stream as soon as the page loads (and camera allowed)
+start();
 
 function errorCallback (error) {
   console.log("navigator.getUserMedia error: " + error);
@@ -58,18 +60,21 @@ function gotStreamSuccess (stream) {
   console.log(stream);
   localVideo.src = URL.createObjectURL(stream);
   localStream = stream;
-  callButton.disabled = false;
+  // callButton.disabled = false;
+  // Initiate the call as soon as the local stream is loaded
+  call();
 }
 
 function start () {
+  constraints = {video: true, audio: true};
   console.log('requesting local stream');
-  startButton.disabled = true;
+  // startButton.disabled = true;
   navigator.getUserMedia(constraints, gotStreamSuccess, errorCallback);
 }
 
 function call () {
-  callButton.disabled = true;
-  hangupButton.disabled = false;
+  // callButton.disabled = true;
+  // hangupButton.disabled = false;
   console.log('starting call');
   //check presence of local video and audio
   if (localStream.getVideoTracks().length > 0) {
@@ -85,7 +90,6 @@ function call () {
   localPeerConnection.addStream(localStream);
   console.log("Added localStream to localPeerConnection");
   localPeerConnection.createOffer(gotLocalDescriptionBeforeOffer,handleError);
-
 }
 
 function createPeerConnection() {
@@ -143,12 +147,11 @@ function hangup() {
   console.log("Ending call");
   localPeerConnection.close();
   localPeerConnection = null;
-  hangupButton.disabled = true;
-  callButton.disabled = false;
+  // hangupButton.disabled = true;
+  // callButton.disabled = false;
 }
 
 function gotRemoteStream(event){
-  console.log();
   console.log('remote stream');
   console.log(event.stream);
   remoteVideo.src = URL.createObjectURL(event.stream);
